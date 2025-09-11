@@ -1,0 +1,11 @@
+node_modules
+# .gitignore básico
+@"
+node_modules
+dist
+.vite
+pnpm-lock.yaml
+.env*
+.DS_Store
+"@ | Out-File -Encoding utf8 .gitignore
+**/.__mf__temp/

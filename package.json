@@ -1,0 +1,16 @@
+{
+  "name": "teddy-mfe-jps",
+  "private": true,
+  "packageManager": "pnpm@10.15.1",
+  "workspaces": [
+    "apps/*"
+  ],
+  "devDependencies": {
+    "turbo": "^2.0.0"
+  },
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "preview": "turbo run preview"
+  }
+}
