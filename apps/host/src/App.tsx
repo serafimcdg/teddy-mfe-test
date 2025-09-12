@@ -20,6 +20,7 @@ export default function App() {
       <Header />
       Teste host
         TESTE JOAO
+        teste 2
       <footer className="py-10 text-center text-sm text-gray-500">
         <Button variant="secondary">Ação do Host</Button>
       </footer>
