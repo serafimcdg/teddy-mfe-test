@@ -2,6 +2,9 @@
   "name": "teddy-mfe-jps",
   "private": true,
   "packageManager": "pnpm@10.15.1",
+  "engines": {
+    "node": ">=18"
+  },
   "workspaces": [
     "apps/*"
   ],
