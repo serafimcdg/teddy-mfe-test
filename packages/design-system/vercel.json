@@ -1,0 +1,6 @@
+{
+  "buildCommand": "pnpm run build-storybook",
+  "installCommand": "pnpm install -w --frozen-lockfile",
+  "outputDirectory": "dist/storybook",
+  "routes": [{ "src": "/$", "dest": "/index.html" }]
+}
