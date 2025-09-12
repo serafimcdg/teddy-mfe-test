@@ -6,7 +6,7 @@ const config: StorybookConfig = {
   addons: ['@storybook/addon-essentials', '@storybook/addon-interactions'],
   docs: { autodocs: 'tag' },
   viteFinal: async (cfg) => {
-    cfg.base = '/storybook/'
+    cfg.base = './';
     return cfg
   }
 }
