@@ -70,14 +70,6 @@
         
     }
       const usedRemotes = [
-                {
-                  entryGlobalName: "design_system",
-                  name: "design_system",
-                  type: "module",
-                  entry: "http://localhost:4175/remoteEntry.js",
-                  shareScope: "default",
-                }
-          
       ]
       export {
         usedShared,

@@ -3,7 +3,7 @@ import './index.css'
 // @ts-ignore
 const CustomersRoot = React.lazy(() => import('clients/CustomersRoot'))
 // @ts-ignore
-import { Button } from 'design_system/index'
+import { Button, Card } from '@teddy/design-system'
 
 function Header() {
   return (

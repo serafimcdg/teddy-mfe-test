@@ -2,19 +2,24 @@
   "name": "teddy-mfe-jps",
   "private": true,
   "packageManager": "pnpm@10.15.1",
-  "engines": {
-    "node": ">=18"
-  },
-  "workspaces": [
-    "apps/*"
-  ],
+  "engines": { "node": ">=18" },
   "devDependencies": {
     "turbo": "^2.0.0",
-    "vercel": "^47.1.4"
+    "vercel": "^47.1.4",
+    "vite": "^7.1.5",
+    "@vitejs/plugin-react": "^4.7.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "vite": "^7.1.5",
+      "@vitejs/plugin-react": "^4.7.0"
+    }
   },
   "scripts": {
     "dev": "turbo run dev --parallel",
     "build": "turbo run build",
-    "preview": "turbo run preview"
+    "preview": "turbo run preview",
+    "sb": "turbo run storybook --filter=@teddy/design-system",
+    "sb:build": "turbo run sb:build --filter=@teddy/design-system"
   }
 }

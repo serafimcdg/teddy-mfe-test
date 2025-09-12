@@ -1,5 +1,5 @@
 // @ts-ignore
-import { Button, Card } from 'design_system/index'
+import { Button, Card } from '@teddy/design-system'
 
 export default function RemoteApp() {
   return (

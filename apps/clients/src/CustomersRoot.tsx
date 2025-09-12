@@ -1,5 +1,5 @@
 ﻿// @ts-ignore
-import { Card, Button } from 'design_system/index'
+import { Button, Card } from '@teddy/design-system'
 import './index.css'
 
 export default function CustomersRoot() {
