@@ -6,7 +6,8 @@
     "apps/*"
   ],
   "devDependencies": {
-    "turbo": "^2.0.0"
+    "turbo": "^2.0.0",
+    "vercel": "^47.1.4"
   },
   "scripts": {
     "dev": "turbo run dev --parallel",

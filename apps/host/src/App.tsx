@@ -19,7 +19,7 @@ export default function App() {
     <div className="min-h-screen bg-gray-50">
       <Header />
       Teste host
-
+        TESTE JOAO
       <footer className="py-10 text-center text-sm text-gray-500">
         <Button variant="secondary">Ação do Host</Button>
       </footer>
