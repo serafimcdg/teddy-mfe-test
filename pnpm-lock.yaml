@@ -173,6 +173,9 @@ importers:
 
   packages/design-system:
     dependencies:
+      '@fontsource/inter':
+        specifier: ^5.2.6
+        version: 5.2.6
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
