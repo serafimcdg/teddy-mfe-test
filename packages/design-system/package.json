@@ -44,8 +44,9 @@
     "vite-plugin-dts": "^4.5.4"
   },
   "scripts": {
-    "build": "vite build",
-    "storybook": "storybook dev -p 6006",
-    "sb": "sb dev -p 6006"
+  "build": "vite build",
+  "storybook": "storybook dev -p 6006",
+  "build-storybook": "storybook build",
+  "sb": "sb dev -p 6006"
   }
 }
