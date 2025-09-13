@@ -33,6 +33,9 @@ importers:
       '@teddy/design-system':
         specifier: workspace:*
         version: link:../../packages/design-system
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       react:
         specifier: ^19.1.1
         version: 19.1.1
@@ -170,6 +173,9 @@ importers:
 
   packages/design-system:
     dependencies:
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       react:
         specifier: '>=18'
         version: 19.1.1
