@@ -1,29 +1,82 @@
-import React, { Suspense } from 'react'
-import './index.css'
-// @ts-ignore
-const CustomersRoot = React.lazy(() => import('clients/CustomersRoot'))
-// @ts-ignore
-import { Button, Card } from '@teddy/design-system'
+import * as React from 'react'
+import { Header, Sidebar } from '@teddy/design-system'
 
-function Header() {
-  return (
-    <header className="w-full border-b bg-white">
-      <div className="font-bold text-xl">teddy open finance</div>
-    </header>
-  )
-}
+import home from '/icons/home.svg'
+import homeActive from '/icons/home-orange.svg'
+import clients from '/icons/cliente.svg'
+import clientsActive from '/icons/cliente-orange.svg'
+import selected from '/icons/selecionados.svg'
+import selectedActive from '/icons/selecionados-orange.svg'
+import logo from '/icons/logoTeddy.svg'
+
+
+type Key = 'home' | 'clients' | 'selected'
 
 export default function App() {
+  const [navHidden, setNavHidden] = React.useState(true)
+  const [selectedKey, setSelectedKey] = React.useState<Key>('home')
+
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
-      Teste host
-        TESTE JOAO
-        teste 2
-      <footer className="py-10 text-center text-sm text-gray-500">
-        <Button variant="secondary">Ação do Host</Button>
-      </footer>
+      <Header
+        onToggleNav={() => setNavHidden(false)}
+        navHidden={navHidden}
+        userName="João"
+        navItems={[
+          {
+            key: 'clients',
+            label: 'Clientes',
+            href: '#clients',
+            active: selectedKey === 'clients',
+            onClick: (e) => {
+              e.preventDefault();
+              setSelectedKey('clients');
+              setNavHidden(true);
+            },
+          },
+          {
+            key: 'selected',
+            label: 'Clientes selecionados',
+            href: '#selected',
+            active: selectedKey === 'selected',
+            onClick: (e) => {
+              e.preventDefault();
+              setSelectedKey('selected');
+              setNavHidden(true);
+            },
+          },
+          {
+            key: 'sair',
+            label: 'Sair',
+            href: '#logout',
+            onClick: (e) => {
+              e.preventDefault();
+            },
+          },
+        ]}
+      />
+
+
+      <Sidebar
+        items={[
+          { key: 'home', label: 'Home', iconSrc: home, iconActiveSrc: homeActive, href: '#home', active: selectedKey === 'home' },
+          { key: 'clients', label: 'Clientes', iconSrc: clients, iconActiveSrc: clientsActive, href: '#clients', active: selectedKey === 'clients' },
+          { key: 'selected', label: 'Clientes selecionados', iconSrc: selected, iconActiveSrc: selectedActive, href: '#selected', active: selectedKey === 'selected' },
+        ]}
+        hidden={navHidden}
+        onHiddenChange={setNavHidden}
+        onSelect={(key) => { setSelectedKey(key as Key); setNavHidden(true); }}
+        activeColor="#EE7D46"
+        logoSrc={logo}
+      />
+
+
+      <main className="p-6">
+        <div className="rounded-xl bg-white p-6 shadow-sm">
+          <h1 className="text-xl font-bold mb-2">Host</h1>
+        </div>
+      </main>
     </div>
   )
 }

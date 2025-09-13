@@ -9,8 +9,10 @@
     "preview": "vite preview --port 4173"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.2.6",
     "@originjs/vite-plugin-federation": "^1.4.1",
     "@teddy/design-system": "workspace:*",
+    "clsx": "^2.1.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.8.2"
@@ -34,5 +36,13 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
     "vite": "^7.1.5"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./styles.css": "./dist/styles.css"
   }
 }

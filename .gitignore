@@ -1,11 +1,16 @@
-node_modules
-# .gitignore básico
-@"
-node_modules
-dist
-.vite
-pnpm-lock.yaml
-.env*
+node_modules/
+**/dist/
+**/.turbo/
+storybook-static/
+packages/design-system/dist/storybook/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+*.log
+.env
+.env.*
+!.env.example
+.vscode/
 .DS_Store
-"@ | Out-File -Encoding utf8 .gitignore
-**/.__mf__temp/
+Thumbs.db
+.vercel/

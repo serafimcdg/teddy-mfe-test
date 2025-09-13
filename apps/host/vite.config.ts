@@ -12,8 +12,7 @@ export default defineConfig(({ mode }) => {
       clients: { name: 'clients', type: 'module', entry: CLIENTS },
     },
     shared: { react: { singleton: true }, 'react-dom': { singleton: true } },
-  }) as unknown as PluginOption[] // garante compat TS
-
+  }) as unknown as PluginOption[] 
   return {
     server: { port: 5173, strictPort: true, cors: true },
     plugins: [react(), ...mf],
