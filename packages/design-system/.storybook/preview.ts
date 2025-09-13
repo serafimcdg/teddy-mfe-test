@@ -1,6 +1,3 @@
-import './preview.css'
-
-export const parameters = {
-  controls: { expanded: true },
-  actions: { argTypesRegex: '^on[A-Z].*' },
-}
+// packages/design-system/.storybook/preview.ts
+import '../src/styles/tailwind.css';
+export default {};

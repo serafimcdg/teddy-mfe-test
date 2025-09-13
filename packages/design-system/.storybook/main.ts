@@ -1,16 +1,12 @@
-import type { StorybookConfig } from '@storybook/react-vite'
+// packages/design-system/.storybook/main.ts
+import type { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
-  framework: '@storybook/react-vite',
-  stories: ['../src/**/*.stories.@(tsx|mdx)'],
+  framework: { name: '@storybook/react-vite', options: {} },
+  stories: ['../src/**/*.stories.@(ts|tsx)'],
   addons: ['@storybook/addon-essentials', '@storybook/addon-interactions'],
-   staticDirs: [
+  staticDirs: [
     { from: '../src/icons', to: '/icons' }
   ],
-  docs: { autodocs: 'tag' },
-  viteFinal: async (cfg) => {
-    cfg.base = './';
-    return cfg
-  }
-}
-export default config
+};
+export default config;
