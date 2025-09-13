@@ -36,17 +36,18 @@
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@types/storybook__react": "^5.2.1",
-    "@vitejs/plugin-react": "^4.7.0",
-    "autoprefixer": "^10.4.21",
-    "tailwindcss": "^3.4.17",
-    "typescript": "^5.8.3",
-    "vite": "^7.1.5",
-    "vite-plugin-dts": "^4.5.4"
+  "@vitejs/plugin-react": "^4.7.0",
+  "autoprefixer": "^10.4.21",
+  "storybook": "8.6.14",
+  "tailwindcss": "^3.4.17",
+  "typescript": "^5.8.3",
+  "vite": "^7.1.5",
+  "vite-plugin-dts": "^4.5.4"
   },
   "scripts": {
-  "build": "vite build",
-  "storybook": "storybook dev -p 6006",
-  "build-storybook": "storybook build",
-  "sb": "sb dev -p 6006"
+    "build": "vite build",
+    "storybook": "sb dev -p 6006",
+    "build-storybook": "sb build",
+    "sb": "sb dev -p 6006"
   }
 }
