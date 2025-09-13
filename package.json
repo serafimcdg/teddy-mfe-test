@@ -2,12 +2,15 @@
   "name": "teddy-mfe-jps",
   "private": true,
   "packageManager": "pnpm@10.15.1",
-  "engines": { "node": ">=18" },
+  "engines": {
+    "node": ">=18"
+  },
   "devDependencies": {
+    "@types/node": "^22.18.3",
+    "@vitejs/plugin-react": "^4.7.0",
     "turbo": "^2.0.0",
     "vercel": "^47.1.4",
-    "vite": "^7.1.5",
-    "@vitejs/plugin-react": "^4.7.0"
+    "vite": "^7.1.5"
   },
   "pnpm": {
     "overrides": {
