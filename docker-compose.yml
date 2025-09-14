@@ -1,0 +1,16 @@
+
+services:
+  clients:
+    build:
+      context: .
+      dockerfile: apps/clients/Dockerfile
+    ports:
+      - "8080:80"
+    container_name: clients-app
+  host:
+    build:
+      context: .
+      dockerfile: apps/host/Dockerfile
+    ports:
+      - "8081:80"
+    container_name: host-app
