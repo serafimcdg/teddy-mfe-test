@@ -1,33 +1,10 @@
 import * as React from 'react'
 import clsx from 'clsx'
-
 import plusIcon from '../../icons/mais.svg?url'
 import editIcon from '../../icons/edit.svg?url'
 import trashIcon from '../../icons/lixeira.svg?url'
-
 const ACTIVE = '#EE7D46'
-
-export type CardProps = {
-  title?: string
-  subtitle?: string         
-  description?: string      
-  children?: React.ReactNode
-  footer?: React.ReactNode
-
-  onAdd?: (e: React.MouseEvent<HTMLButtonElement>) => void
-  onEdit?: (e: React.MouseEvent<HTMLButtonElement>) => void
-  onDelete?: (e: React.MouseEvent<HTMLButtonElement>) => void
-
-  addIconSrc?: string
-  editIconSrc?: string
-  deleteIconSrc?: string
-
-  className?: string
-  hoverable?: boolean
-  activeColor?: string
-  actionsPosition?: 'top-right' | 'bottom-right' | 'bottom-bar'
-  style?: React.CSSProperties
-}
+import { CardProps } from '../../types/card';
 
 function IconButton({
   src,
@@ -63,7 +40,7 @@ export default function Card({
   description,
   children,
   footer,
-  onAdd,
+  onSelect,
   onEdit,
   onDelete,
   addIconSrc = plusIcon,
@@ -74,13 +51,14 @@ export default function Card({
   activeColor = ACTIVE,
   actionsPosition = 'bottom-bar',
   style,
+  selected = false,
 }: CardProps) {
   const hasHeaderMeta = title || subtitle || description
 
   const ActionsBottomBar = (
-  <div className="mt-[5rem] grid grid-cols-3 items-center">
+    <div className="mt-[5rem] grid grid-cols-3 items-center">
       <div className="justify-self-start">
-        <IconButton src={addIconSrc} label="Adicionar" onClick={onAdd} testId="card-action-add" />
+        <IconButton src={addIconSrc} label="Selecionar" onClick={onSelect} testId="card-action-select" />
       </div>
       <div className="justify-self-center">
         <IconButton src={editIconSrc} label="Editar" onClick={onEdit} testId="card-action-edit" />
@@ -93,9 +71,9 @@ export default function Card({
 
   const ActionsTopRight = (
     <div className="flex items-center gap-2">
-      <IconButton src={addIconSrc} label="Adicionar" onClick={onAdd} testId="card-action-add" />
-      <IconButton src={editIconSrc} label="Editar" onClick={onEdit} testId="card-action-edit" />
-      <IconButton src={deleteIconSrc} label="Excluir" onClick={onDelete} testId="card-action-delete" />
+      {onSelect && <IconButton src={addIconSrc} label="Selecionar" onClick={onSelect} testId="card-action-select" />}
+      {onEdit && <IconButton src={editIconSrc} label="Editar" onClick={onEdit} testId="card-action-edit" />}
+      {onDelete && <IconButton src={deleteIconSrc} label="Excluir" onClick={onDelete} testId="card-action-delete" />}
     </div>
   )
 
@@ -103,9 +81,10 @@ export default function Card({
     <section
       role="region"
       className={clsx(
-  'relative bg-white rounded-md p-4 flex flex-col shadow-sm',
-  'w-full h-[138px] opacity-100',
+        'relative bg-white rounded-md p-4 flex flex-col shadow-sm',
+        'w-full h-[138px] opacity-100',
         hoverable && 'hover:shadow-md transition-shadow',
+        selected && 'border-2 border-orange-400',
         className,
       )}
     >

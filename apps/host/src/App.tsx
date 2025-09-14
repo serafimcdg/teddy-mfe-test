@@ -1,80 +1,116 @@
-import * as React from 'react'
-import { Header, Sidebar } from '@teddy/design-system'
+
+
+
+
+import * as React from 'react';
+import { Header, Sidebar } from '@teddy/design-system';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 // @ts-ignore
-import CustomersRoot from 'clients/CustomersRoot'
-
-import home from '/icons/home.svg'
-import homeActive from '/icons/home-orange.svg'
-import clients from '/icons/cliente.svg'
-import clientsActive from '/icons/cliente-orange.svg'
-import selected from '/icons/selecionados.svg'
-import selectedActive from '/icons/selecionados-orange.svg'
-import logo from '/icons/logoTeddy.svg'
+import CustomersRoot from 'clients/CustomersRoot';
+// @ts-ignore
+import SelectedClients from 'clients/SelectedClients';
+import Login from './Login';
 
 
-type Key = 'home' | 'clients' | 'selected'
+
+
+type Client = {
+  nome: string;
+  salario: string;
+  empresa: string;
+  id: number;
+};
+
 
 export default function App() {
-  const [navHidden, setNavHidden] = React.useState(true)
-  const [selectedKey, setSelectedKey] = React.useState<Key>('home')
+  const [navHidden, setNavHidden] = React.useState(true);
+  const [userName, setUserName] = React.useState<string>(() => localStorage.getItem('userName') || '');
+  const [selectedClients, setSelectedClients] = React.useState<Client[]>([]);
 
+  const handleSelectClient = (id: number, client: Client) => {
+    setSelectedClients((prev) => prev.some((c) => c.id === id)
+      ? prev.filter((c) => c.id !== id)
+      : [...prev, client]);
+  };
+  const handleClearSelected = () => setSelectedClients([]);
+  const handleLogout = () => {
+    setUserName('');
+    localStorage.removeItem('userName');
+  };
+
+  const navigate = useNavigate(); 
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header
-        onToggleNav={() => setNavHidden(false)}
-        navHidden={navHidden}
-        userName="João"
-        navItems={[
-          {
-            key: 'clients',
-            label: 'Clientes',
-            href: '#clients',
-            active: selectedKey === 'clients',
-            onClick: (e) => {
-              e.preventDefault();
-              setSelectedKey('clients');
-              setNavHidden(true);
-            },
-          },
-          {
-            key: 'selected',
-            label: 'Clientes selecionados',
-            href: '#selected',
-            active: selectedKey === 'selected',
-            onClick: (e) => {
-              e.preventDefault();
-              setSelectedKey('selected');
-              setNavHidden(true);
-            },
-          },
-          {
-            key: 'sair',
-            label: 'Sair',
-            href: '#logout',
-            onClick: (e) => {
-              e.preventDefault();
-            },
-          },
-        ]}
-      />
-
-
-      <Sidebar
-        items={[
-          { key: 'home', label: 'Home', iconSrc: home, iconActiveSrc: homeActive, href: '#home', active: selectedKey === 'home' },
-          { key: 'clients', label: 'Clientes', iconSrc: clients, iconActiveSrc: clientsActive, href: '#clients', active: selectedKey === 'clients' },
-          { key: 'selected', label: 'Clientes selecionados', iconSrc: selected, iconActiveSrc: selectedActive, href: '#selected', active: selectedKey === 'selected' },
-        ]}
-        hidden={navHidden}
-        onHiddenChange={setNavHidden}
-        onSelect={(key) => { setSelectedKey(key as Key); setNavHidden(true); }}
-        activeColor="#EE7D46"
-        logoSrc={logo}
-      />
-      <main >
-        <CustomersRoot />
-      </main>
-    </div>
-  )
+    <Routes>
+      <Route path="/" element={
+        <Login onEnter={(name: string) => {
+          setUserName(name);
+          localStorage.setItem('userName', name);
+        }} />
+      } />
+      <Route path="/clientes" element={
+        <div className="min-h-screen bg-gray-50">
+          <Header
+            onToggleNav={() => setNavHidden(false)}
+            navHidden={navHidden}
+            userName={userName}
+            navItems={[
+              { key: 'clients', label: 'Clientes', href: '/clientes', active: true, onClick: (e: React.MouseEvent) => { e.preventDefault(); navigate('/clientes'); } },
+              { key: 'selected', label: 'Clientes selecionados', href: '/selecionados', active: false, onClick: (e: React.MouseEvent) => { e.preventDefault(); navigate('/selecionados'); } },
+              { key: 'sair', label: 'Sair', href: '/', onClick: (e: React.MouseEvent) => { e.preventDefault(); handleLogout(); navigate('/'); } }
+            ]}
+          />
+          <Sidebar
+            items={[
+              { key: 'clients', label: 'Clientes', iconSrc: '/icons/cliente.svg', iconActiveSrc: '/icons/cliente-orange.svg', href: '/clientes', active: true },
+              { key: 'selected', label: 'Clientes selecionados', iconSrc: '/icons/selecionados.svg', iconActiveSrc: '/icons/selecionados-orange.svg', href: '/selecionados', active: false }
+            ]}
+            hidden={navHidden}
+            onHiddenChange={setNavHidden}
+            onSelect={() => {}}
+            activeColor="#EE7D46"
+            logoSrc={'/icons/logoTeddy.svg'}
+          />
+          <main>
+            <CustomersRoot
+              onSelectClient={handleSelectClient}
+              selectedCardIds={selectedClients.map((c) => c.id)}
+            />
+          </main>
+        </div>
+      } />
+      <Route path="/selecionados" element={
+        <div className="min-h-screen bg-gray-50">
+          <Header
+            onToggleNav={() => setNavHidden(false)}
+            navHidden={navHidden}
+            userName={userName}
+            navItems={[
+              { key: 'clients', label: 'Clientes', href: '/clientes', active: false, onClick: (e: React.MouseEvent) => { e.preventDefault(); navigate('/clientes'); } },
+              { key: 'selected', label: 'Clientes selecionados', href: '/selecionados', active: true, onClick: (e: React.MouseEvent) => { e.preventDefault(); navigate('/selecionados'); } },
+              { key: 'sair', label: 'Sair', href: '/', onClick: (e: React.MouseEvent) => { e.preventDefault(); handleLogout(); navigate('/'); } }
+            ]}
+          />
+          <Sidebar
+            items={[
+              { key: 'clients', label: 'Clientes', iconSrc: '/icons/cliente.svg', iconActiveSrc: '/icons/cliente-orange.svg', href: '/clientes', active: false },
+              { key: 'selected', label: 'Clientes selecionados', iconSrc: '/icons/selecionados.svg', iconActiveSrc: '/icons/selecionados-orange.svg', href: '/selecionados', active: true }
+            ]}
+            hidden={navHidden}
+            onHiddenChange={setNavHidden}
+            onSelect={() => {}}
+            activeColor="#EE7D46"
+            logoSrc={'/icons/logoTeddy.svg'}
+          />
+          <main>
+            <SelectedClients
+              selectedClients={selectedClients}
+              onClear={handleClearSelected}
+            />
+          </main>
+        </div>
+      } />
+    </Routes>
+  );
 }
+

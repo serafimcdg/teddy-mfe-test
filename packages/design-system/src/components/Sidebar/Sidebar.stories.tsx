@@ -1,11 +1,19 @@
 import * as React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
-import Sidebar, { type SidebarItem } from './Sidebar'
+import Sidebar from './Sidebar'
+import type { SidebarItem } from '../../types/sidebar';
 
 const meta = {
   title: 'Navigation/Sidebar',
   component: Sidebar,
-  parameters: { layout: 'fullscreen' },
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        component: 'Barra de navegação lateral'
+      }
+    }
+  },
   argTypes: {
     onSelect: { action: 'select' },
   },

@@ -1,6 +1,13 @@
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import '@teddy/design-system/design-system.css'
-import './index.css'
 
-ReactDOM.createRoot(document.getElementById('root')!).render(<App />)
+
+import { createRoot } from 'react-dom/client';
+import App from './App';
+import '@teddy/design-system/design-system.css';
+import './index.css';
+import { BrowserRouter } from 'react-router-dom';
+
+createRoot(document.getElementById('root')!).render(
+	<BrowserRouter>
+		<App />
+	</BrowserRouter>
+);

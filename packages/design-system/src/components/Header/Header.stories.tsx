@@ -1,12 +1,21 @@
 import * as React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
-import Header, { type HeaderNavItem } from './Header'
-import Sidebar, { type SidebarItem } from '../Sidebar/Sidebar'
+import Header from './Header'
+import Sidebar from '../Sidebar/Sidebar'
 
-const meta = {
+const meta: Meta<typeof Header> = {
   title: 'Header e Sidebar',
-  parameters: { layout: 'fullscreen' },
-} satisfies Meta
+  component: Header,
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        component: 'Header de toda a aplicação'
+      }
+    }
+  },
+};
 
 export default meta
 type Story = StoryObj
@@ -16,7 +25,7 @@ export const Interactive: Story = {
     const [hidden, setHidden] = React.useState(false)
     const [selected, setSelected] = React.useState('clients')
 
-    const items: SidebarItem[] = [
+  const items = [
       {
         key: 'home',
         label: 'Home',
@@ -40,11 +49,39 @@ export const Interactive: Story = {
       },
     ]
 
-    const topNav: HeaderNavItem[] = [
-      { key: 'clients',  label: 'Clientes',              active: selected === 'clients',  onClick: () => setSelected('clients') },
-      { key: 'selected', label: 'Clientes selecionados', active: selected === 'selected', onClick: () => setSelected('selected') },
-      { key: 'logout',   label: 'Sair',                  onClick: (e) => { e.preventDefault() } },
-    ]
+  interface TopNavItemBase {
+    key: string;
+    label: string;
+    onClick: (e: React.MouseEvent<Element, MouseEvent>) => void;
+  }
+
+  interface TopNavItemWithActive extends TopNavItemBase {
+    active: boolean;
+  }
+
+  type TopNavItem = TopNavItemBase | TopNavItemWithActive;
+
+  const topNav: TopNavItem[] = [
+    {
+      key: 'clients',
+      label: 'Clientes',
+      active: selected === 'clients',
+      onClick: () => setSelected('clients'),
+    },
+    {
+      key: 'selected',
+      label: 'Clientes selecionados',
+      active: selected === 'selected',
+      onClick: () => setSelected('selected'),
+    },
+    {
+      key: 'logout',
+      label: 'Sair',
+      onClick: (e) => {
+        e.preventDefault();
+      },
+    },
+  ];
 
     return (
       <div className="min-h-screen flex bg-white">
@@ -69,7 +106,7 @@ export const Interactive: Story = {
           />
 
           <main className="p-6 space-y-3 text-zinc-700">
-           <>Outros componentes</>
+            Outros componentes
           </main>
         </div>
       </div>

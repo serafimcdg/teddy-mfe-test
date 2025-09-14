@@ -6,7 +6,10 @@ export default defineConfig(() => {
   const mf = federation({
     name: 'clients',
     filename: 'remoteEntry.js',
-    exposes: { './CustomersRoot': './src/CustomersRoot.tsx' },
+    exposes: {
+      './CustomersRoot': './src/CustomersRoot.tsx',
+      './SelectedClients': './src/SelectedClients.tsx',
+    },
     shared: { react: { singleton: true }, 'react-dom': { singleton: true } },
   }) as unknown as PluginOption[]
 

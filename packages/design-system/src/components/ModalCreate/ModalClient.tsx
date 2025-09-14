@@ -1,15 +1,16 @@
 import * as React from 'react';
+import { ModalClientProps } from '../../types/modalClient';
 
-export type ModalClientProps = {
-  open: boolean;
-  onClose: () => void;
-  onSubmit: (data: { nome: string; salario: string; empresa: string }) => void;
-};
+export default function ModalClient({ open, onClose, onSubmit, initialData, title = "Criar cliente:", buttonText = "Criar cliente" }: ModalClientProps) {
+  const [nome, setNome] = React.useState(initialData?.nome || '');
+  const [salario, setSalario] = React.useState(initialData?.salario || '');
+  const [empresa, setEmpresa] = React.useState(initialData?.empresa || '');
 
-export default function ModalClient({ open, onClose, onSubmit }: ModalClientProps) {
-  const [nome, setNome] = React.useState('');
-  const [salario, setSalario] = React.useState('');
-  const [empresa, setEmpresa] = React.useState('');
+  React.useEffect(() => {
+    setNome(initialData?.nome || '');
+    setSalario(initialData?.salario || '');
+    setEmpresa(initialData?.empresa || '');
+  }, [initialData, open]);
 
   if (!open) return null;
 
@@ -23,7 +24,7 @@ export default function ModalClient({ open, onClose, onSubmit }: ModalClientProp
         >
           ×
         </button>
-        <h2 className="text-base font-semibold mb-6 text-left">Criar cliente:</h2>
+        <h2 className="text-base font-semibold mb-6 text-left">{title}</h2>
         <form
           className="flex flex-col gap-4 w-full"
           onSubmit={e => {
@@ -56,7 +57,7 @@ export default function ModalClient({ open, onClose, onSubmit }: ModalClientProp
             type="submit"
             className="w-full h-[40px] border-none rounded-[4px] bg-[#EC6724] text-white font-inter font-bold text-[14px] leading-[40px] transition hover:bg-orange-600 flex items-center justify-center"
           >
-            Criar cliente
+            {buttonText}
           </button>
         </form>
       </div>

@@ -1,32 +1,8 @@
-import * as React from 'react'
-import clsx from 'clsx'
-import defaultLogo from '../../icons/logoTeddy.svg?url'
-import defaultCollapse from '../../icons/collapse-buttoon.svg?url'
-
-export type SidebarItem = {
-  key: string
-  label: string
-  href?: string
-  disabled?: boolean
-  badge?: number | string
-  iconSrc: string
-  iconActiveSrc?: string
-  active?: boolean
-}
-
-export type SidebarProps = {
-  items: SidebarItem[]
-  className?: string
-  logoSrc?: string
-  selectedKey?: string
-  defaultSelectedKey?: string
-  onSelect?: (key: string, item: SidebarItem, ev: React.MouseEvent) => void
-  activeColor?: string
-  hidden?: boolean
-  defaultHidden?: boolean
-  onHiddenChange?: (hidden: boolean) => void
-  collapseIconSrc?: string
-}
+import React, { useEffect, useState } from 'react';
+import clsx from 'clsx';
+import defaultLogo from '../../icons/logoTeddy.svg?url';
+import defaultCollapse from '../../icons/collapse-buttoon.svg?url';
+import { SidebarItem, SidebarProps } from '../../types/sidebar';
 
 const SIDEBAR_W = 260
 const HEADER_H = 128
@@ -34,14 +10,14 @@ const LOGO_W = 100
 const LOGO_H = 48.98
 const COLLAPSE_ICON = 45
 
-const cn = (...a: Parameters<typeof clsx>) => clsx(...a)
+const cn = (...a: Parameters<typeof clsx>) => clsx(...a);
 
-function ItemIcon({ src, active, activeSrc }: { src: string; active?: boolean; activeSrc?: string }) {
+function ItemIcon({ src, active, activeSrc }: Readonly<{ src: string; active?: boolean; activeSrc?: string }>) {
   const icon = active && activeSrc ? activeSrc : src
   return <img src={icon} alt="" aria-hidden className={cn('h-5 w-5 shrink-0', active ? 'opacity-100' : 'opacity-80')} />
 }
 
-export default function Sidebar(props: SidebarProps) {
+export default function Sidebar(props: Readonly<SidebarProps>) {
   const {
     items,
     className,
@@ -54,36 +30,36 @@ export default function Sidebar(props: SidebarProps) {
     defaultHidden = false,
     onHiddenChange,
     collapseIconSrc = defaultCollapse, 
-  } = props
+  } = props;
 
-  const [internalKey, setInternalKey] = React.useState<string | undefined>(
+  const [internalKey, setInternalKey] = useState<string | undefined>(
     () => defaultSelectedKey ?? items.find(i => i.active)?.key ?? items[0]?.key
-  )
-  const selectedKey = selectedKeyProp ?? internalKey
+  );
+  const selectedKey = selectedKeyProp ?? internalKey;
 
   const handleItemClick = (it: SidebarItem) => (ev: React.MouseEvent) => {
-    if (it.disabled) return
-    if (!it.href || it.href === '#') ev.preventDefault()
-    if (selectedKeyProp === undefined) setInternalKey(it.key)
-    onSelect?.(it.key, it, ev)
-  }
+    if (it.disabled) return;
+    if (!it.href || it.href === '#') ev.preventDefault();
+    if (selectedKeyProp === undefined) setInternalKey(it.key);
+    onSelect?.(it.key, it, ev);
+  };
 
-  const [internalHidden, setInternalHidden] = React.useState(defaultHidden)
-  const hidden = hiddenProp ?? internalHidden
+  const [internalHidden, setInternalHidden] = useState(defaultHidden);
+  const hidden = hiddenProp ?? internalHidden;
   const collapse = () => {
     if (!hidden) {
-      if (hiddenProp === undefined) setInternalHidden(true)
-      onHiddenChange?.(true)
+      if (hiddenProp === undefined) setInternalHidden(true);
+      onHiddenChange?.(true);
     }
-  }
+  };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!hidden) {
-      const prev = document.documentElement.style.overflow
-      document.documentElement.style.overflow = 'hidden'
-      return () => { document.documentElement.style.overflow = prev }
+      const prev = document.documentElement.style.overflow;
+      document.documentElement.style.overflow = 'hidden';
+      return () => { document.documentElement.style.overflow = prev; };
     }
-  }, [hidden])
+  }, [hidden]);
 
   return (
     <div

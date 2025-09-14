@@ -1,32 +1,243 @@
-﻿import { useState } from 'react';
-import { Card, ButtonCreate, ModalClient } from '@teddy/design-system';
+﻿import React, { useState, useEffect } from 'react';
 
-export default function CustomersRoot() {
-  const [modalOpen, setModalOpen] = useState(false);
-  const clientes = Array.from({ length: 16 }, (_, i) => ({
-    nome: 'Eduardo',
-    salario: 'R$3.500,00',
-    empresa: 'R$120.000,00',
-    id: i,
-  }));
+type CustomersRootProps = {
+  readonly onSelectClient?: (id: number, client: Client) => void;
+  readonly selectedCardIds?: number[];
+};
+import { Card, ButtonCreate, ModalDeleteClient, ModalClient, Toast, LoaderSpinner } from '@teddy/design-system';
+
+
+
+type Client = {
+  nome: string;
+  salario: string;
+  empresa: string;
+  id: number;
+};
+
+type ToastState = {
+  type: 'success' | 'error';
+  message: string;
+  visible: boolean;
+};
+
+
+import { deleteUser, postUser, patchUser, fetchUsers } from './services/clientService';
+
+export default function CustomersRoot({ onSelectClient, selectedCardIds: externalSelectedCardIds }: CustomersRootProps) {
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(16);
+  const [modalEditOpen, setModalEditOpen] = useState(false);
+  const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
+  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+  const [selectedCardIds, setSelectedCardIds] = useState<number[]>(externalSelectedCardIds || []);
+  const [clientes, setClientes] = useState<any[]>([]);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState<ToastState>({ type: 'success', message: '', visible: false });
+  const showToast = (type: 'success' | 'error', message: string) => {
+    setToast({ type, message, visible: true });
+    setTimeout(() => setToast(t => ({ ...t, visible: false })), 3500);
+  };
+
+  useEffect(() => {
+    async function fetchClients() {
+      setLoading(true);
+      try {
+        const data = await fetchUsers(page, perPage);
+        setClientes(data.clients);
+        setTotal(data.totalPages * perPage);
+      } catch (err) {
+        setClientes([]);
+        setTotal(0);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchClients();
+  }, [page, perPage]);
+
+
+  const handleSelect = (id: number) => {
+    const client = clientes.find(c => c.id === id);
+    if (client && onSelectClient) {
+      onSelectClient(id, client);
+      const prevIds = JSON.parse(sessionStorage.getItem('selectedClientIds') || '[]');
+      let newIds;
+      if (prevIds.includes(id)) {
+        newIds = prevIds.filter((cardId: number) => cardId !== id);
+      } else {
+        newIds = [...prevIds, id];
+      }
+      sessionStorage.setItem('selectedClientIds', JSON.stringify(newIds));
+    }
+    setSelectedCardIds((prev) =>
+      prev.includes(id) ? prev.filter((cardId) => cardId !== id) : [...prev, id]
+    );
+  };
+
+  const handleAdd = () => {
+    setSelectedClient(null);
+    setModalEditOpen(true);
+  };
+
+  const handleEdit = (client: Client) => {
+    setModalEditOpen(true);
+    setSelectedClient(client);
+  };
+
+  const handleDelete = (client: Client) => {
+    setModalDeleteOpen(true);
+    setSelectedClient(client);
+  };
 
   return (
-  <div className="w-full h-full bg-zinc-50 flex flex-col">
-      <div className="flex-1 flex justify-center items-start">
-        <div className="w-full px-6">
-          <div className="bg-[#f6f6f6] rounded-lg p-4 w-full overflow-x-auto max-h-[80vh] overflow-y-auto">
-            <div className="grid grid-cols-4 gap-8 w-full mb-8">
-              {clientes.map((c) => (
-                <Card key={c.id} title={c.nome} subtitle={`Salário: ${c.salario}`} description={`Empresa: ${c.empresa}`} />
-              ))}
+  <div className="w-full h-full bg-zinc-50 flex flex-col px-2 sm:px-6 md:px-10 lg:px-[40px]" style={{ position: 'relative' }}>
+      {toast.visible && (
+        <Toast type={toast.type} message={toast.message} visible={toast.visible} onClose={() => setToast(t => ({ ...t, visible: false }))} />
+      )}
+      {loading ? (
+        <LoaderSpinner visible={true} />
+      ) : (
+        <>
+          <div className="flex-1 flex justify-center items-start">
+            <div className="w-full mx-auto px-2 sm:px-6 md:px-10 lg:px-[60px]">
+              <div className="rounded-lg w-full overflow-x-auto overflow-y-auto min-h-[60vh] px-2 sm:px-6 md:px-10 lg:px-[60px] py-5">
+                <div className="flex justify-between items-center mb-[7px]">
+                  <span className="text-base font-semibold text-zinc-900 pl-2">{total} clientes encontrados:</span>
+                  <div className="flex items-center gap-2 pr-2">
+                    <span className="text-base font-semibold text-zinc-900">Clientes por página:</span>
+                    <select
+                      className="border border-zinc-300 rounded px-2 py-1 text-base bg-white min-w-[64px]"
+                      value={perPage}
+                      onChange={e => setPerPage(Number(e.target.value))}
+                    >
+                      {[8, 16, 32, 64].map(n => (
+                        <option key={n} value={n}>{n}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full mb-2">
+                  {clientes.map((c) => {
+                    const formatBRL = (value: number) =>
+                      value?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                    return (
+                      <Card
+                        key={c.id}
+                        title={c.name}
+                        subtitle={`Salário: ${formatBRL(c.salary)}`}
+                        description={`Empresa: ${formatBRL(c.companyValuation)}`}
+                        onSelect={() => handleSelect(c.id)}
+                        onEdit={() => handleEdit(c)}
+                        onDelete={() => handleDelete(c)}
+                        selected={selectedCardIds.includes(c.id)}
+                      />
+                    );
+                  })}
+                </div>
+                <ButtonCreate className="w-full  mt-[15px] mb-[15px]  border border-[#EC6724] text-[#EC6724] bg-white rounded-[4px] font-medium" onClick={handleAdd}>
+                  Criar cliente
+                </ButtonCreate>
+                <div className="flex justify-center items-center mt-2">
+                  <nav className="flex gap-3 text-base">
+                    {(() => {
+                      const totalPages = Math.max(1, Math.ceil(total / perPage));
+                      const pages: (number | string)[] = [];
+                      if (totalPages <= 7) {
+                        for (let i = 1; i <= totalPages; i++) pages.push(i);
+                      } else {
+                        pages.push(1);
+                        if (page > 4) pages.push('...');
+                        for (let i = Math.max(2, page - 2); i <= Math.min(totalPages - 1, page + 2); i++) {
+                          pages.push(i);
+                        }
+                        if (page < totalPages - 3) pages.push('...');
+                        pages.push(totalPages);
+                      }
+                      return pages.map((p, idx) =>
+                        typeof p === 'number' ? (
+                          <button
+                            key={p}
+                            className={`w-8 h-8 flex items-center justify-center rounded-[6px] font-semibold transition-colors ${page === p ? 'bg-[#EC6724] text-white' : 'bg-transparent text-zinc-900 hover:bg-zinc-100'}`}
+                            style={{ boxShadow: page === p ? '0 2px 8px 0 rgba(236,103,36,0.10)' : undefined }}
+                            onClick={() => setPage(p)}
+                          >{p}</button>
+                        ) : (
+                          <span key={"ellipsis-"+idx} className="mx-1 text-zinc-700">...</span>
+                        )
+                      );
+                    })()}
+                  </nav>
+                </div>
+              </div>
             </div>
-            <ButtonCreate className="w-full mb-2" onClick={() => setModalOpen(true)}>
-              Criar cliente
-            </ButtonCreate>
           </div>
-        </div>
-      </div>
-      <ModalClient open={modalOpen} onClose={() => setModalOpen(false)} onSubmit={() => setModalOpen(false)} />
+        </>
+      )}
+      <ModalClient
+        open={modalEditOpen}
+        onClose={() => setModalEditOpen(false)}
+        onSubmit={async (data: { nome: string; salario: string; empresa: string }) => {
+          setLoading(true);
+          try {
+        if (selectedClient) {
+          await patchUser(selectedClient.id, {
+            name: data.nome,
+            salary: Number(data.salario),
+            companyValuation: Number(data.empresa)
+          });
+          showToast('success', 'Cliente editado com sucesso!');
+        } else {
+          await postUser({
+            name: data.nome,
+            salary: Number(data.salario),
+            companyValuation: Number(data.empresa)
+          });
+          showToast('success', 'Cliente criado com sucesso!');
+        }
+
+        const usersData: { clients: Client[]; totalPages: number } = await fetchUsers(page, perPage);
+        setClientes(usersData.clients);
+        setTotal(usersData.totalPages * perPage);
+        setModalEditOpen(false);
+          } catch (err) {
+        showToast('error', selectedClient ? 'Erro ao editar usuário!' : 'Erro ao criar usuário!');
+          } finally {
+        setLoading(false);
+          }
+        }}
+        initialData={selectedClient ? {
+          nome: selectedClient.nome,
+          salario: selectedClient.salario,
+          empresa: selectedClient.empresa,
+        } : undefined}
+        title={selectedClient ? "Editar cliente:" : "Criar cliente:"}
+        buttonText={selectedClient ? "Salvar" : "Criar cliente"}
+      />
+      <ModalDeleteClient
+        open={modalDeleteOpen}
+        onClose={() => setModalDeleteOpen(false)}
+        onDelete={async (): Promise<void> => {
+          setLoading(true);
+          try {
+            if (selectedClient) {
+              await deleteUser(selectedClient.id);
+              showToast('success', 'Cliente excluído com sucesso!');
+              const data = await fetchUsers(page, perPage);
+              setClientes(data.clients);
+              setTotal(data.totalPages * perPage);
+            }
+            setModalDeleteOpen(false);
+          } catch (err) {
+            showToast('error', 'Erro ao excluir usuário!');
+            setModalDeleteOpen(false);
+          } finally {
+            setLoading(false);
+          }
+        }}
+        clientName={selectedClient ? selectedClient.nome : ''}
+      />
     </div>
   );
 }

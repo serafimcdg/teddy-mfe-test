@@ -4,6 +4,14 @@ import ButtonCreate from './ButtonCreate';
 const meta: Meta<typeof ButtonCreate> = {
   title: 'Form/ButtonCreate',
   component: ButtonCreate,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: 'Button para criar usuario'
+      }
+    }
+  },
 };
 export default meta;
 
