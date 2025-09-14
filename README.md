@@ -24,10 +24,10 @@ Para rodar o projeto, você precisa ter instalado:
 
 ## O que foi utilizado para o projeto 
 
-- React - V^19.1.1
-- Vite - V^7.1.5
-- Tailwind CSS
-- Jest - V ^30.1.3
+- React - ^19.1.1
+- Vite - ^7.1.5
+- Tailwind CSS - ^4.1.13
+- Jest -  ^30.1.3 
 - Storybook - V8.6.14
 - Docker
 
