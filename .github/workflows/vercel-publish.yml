@@ -1,6 +1,3 @@
-deploy-design-system:
-on:
-jobs:
 name: Vercel Multi Deploy
 on:
   push:
@@ -75,19 +72,6 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_CLIENTS }}
           working-directory: apps/clients
-            needs: deploy-design-system
-            runs-on: ubuntu-latest
-            steps:
-              - name: Checkout code
-                uses: actions/checkout@v3
-              - name: Setup Node.js
-                uses: actions/setup-node@v3
-                with:
-                  node-version: '20.19.0'
-              - name: Install pnpm
-                run: npm install -g pnpm
-              - name: Install dependencies
-                run: pnpm install
               - name: Build host
                 run: pnpm --filter host build
               - name: Deploy host to Vercel
