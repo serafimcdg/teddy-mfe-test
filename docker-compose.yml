@@ -1,16 +1,26 @@
+  version: '3.8'
 
-services:
-  clients:
-    build:
-      context: .
-      dockerfile: apps/clients/Dockerfile
-    ports:
-      - "8080:80"
-    container_name: clients-app
-  host:
-    build:
-      context: .
-      dockerfile: apps/host/Dockerfile
-    ports:
-      - "8081:80"
-    container_name: host-app
+  services:
+    clients:
+      build:
+        context: .
+        dockerfile: apps/clients/Dockerfile
+      ports:
+        - "8080:80"
+      container_name: clients-app
+    host:
+      build:
+        context: .
+        dockerfile: apps/host/Dockerfile
+      ports:
+        - "8081:80"
+      container_name: host-app
+      environment:
+        - VITE_REMOTE_CLIENTS_URL=http://clients:80/remoteEntry.js
+    storybook:
+      build:
+        context: ./packages/design-system
+        dockerfile: Dockerfile
+      ports:
+        - "6006:6006"
+      container_name: storybook-design-system
