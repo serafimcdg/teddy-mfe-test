@@ -30,6 +30,7 @@ Para rodar o projeto, você precisa ter instalado:
 - Jest -  ^30.1.3 
 - Storybook - V8.6.14
 - Docker
+- TurboRepo - ^2.0.0
 
 
 
