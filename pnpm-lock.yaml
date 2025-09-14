@@ -100,6 +100,9 @@ importers:
       '@fontsource/inter':
         specifier: ^5.2.6
         version: 5.2.6
+      '@module-federation/runtime':
+        specifier: ^0.19.1
+        version: 0.19.1
       '@originjs/vite-plugin-federation':
         specifier: ^1.4.1
         version: 1.4.1
@@ -849,6 +852,9 @@ packages:
   '@module-federation/error-codes@0.18.4':
     resolution: {integrity: sha512-cpLsqL8du9CfTTCKvXbRg93ALF+lklqHnuPryhbwVEQg2eYo6CMoMQ6Eb7kJhLigUABIDujbHD01SvBbASGkeQ==}
 
+  '@module-federation/error-codes@0.19.1':
+    resolution: {integrity: sha512-XtrOfaYPBD9UbdWb7O+gk295/5EFfC2/R6JmhbQmM2mt2axlrwUoy29LAEMSpyMkAD0NfRfQ3HaOsJQiUIy+Qg==}
+
   '@module-federation/inject-external-runtime-core-plugin@0.18.4':
     resolution: {integrity: sha512-x+IakEXu+ammna2SMKkb1NRDXKxhKckOJIYanNHh1FtG2bvhu8xJplShvStmfO+BUv1n0KODSq89qGVYxFMbGQ==}
     peerDependencies:
@@ -881,6 +887,9 @@ packages:
   '@module-federation/runtime-core@0.18.4':
     resolution: {integrity: sha512-LGGlFXlNeTbIGBFDiOvg0zz4jBWCGPqQatXdKx7mylXhDij7YmwbuW19oenX+P1fGhmoBUBM5WndmR87U66qWA==}
 
+  '@module-federation/runtime-core@0.19.1':
+    resolution: {integrity: sha512-NLSlPnIzO2RoF6W1xq/x3t1j7jcglMaPSv2EIVOFvs5/ah7BeJmRhtH494tmjIwV0q+j1QEGGhijHxXZLK1HMQ==}
+
   '@module-federation/runtime-tools@0.18.0':
     resolution: {integrity: sha512-fSga9o4t1UfXNV/Kh6qFvRyZpPp3EHSPRISNeyT8ZoTpzDNiYzhtw0BPUSSD8m6C6XQh2s/11rI4g80UY+d+hA==}
 
@@ -896,6 +905,9 @@ packages:
   '@module-federation/runtime@0.18.4':
     resolution: {integrity: sha512-2et6p7pjGRHzpmrW425jt/BiAU7QHgkZtbQB7pj01eQ8qx6SloFEBk9ODnV8/ztSm9H2T3d8GxXA6/9xVOslmQ==}
 
+  '@module-federation/runtime@0.19.1':
+    resolution: {integrity: sha512-eSXexdGGPpZnhiWCVfRlVLNWj7gHKp65beC4b8wddTvMBIrxnsdl9ae1ebwcIpbe9gOGDbaXBFtc3r5MH6l6Jg==}
+
   '@module-federation/sdk@0.17.1':
     resolution: {integrity: sha512-nlUcN6UTEi+3HWF+k8wPy7gH0yUOmCT+xNatihkIVR9REAnr7BUvHFGlPJmx7WEbLPL46+zJUbtQHvLzXwFhng==}
 
@@ -904,6 +916,9 @@ packages:
 
   '@module-federation/sdk@0.18.4':
     resolution: {integrity: sha512-dErzOlX+E3HS2Sg1m12Hi9nCnfvQPuIvlq9N47KxrbT2TIU3KKYc9q/Ua+QWqxfTyMVFpbNDwFMJ1R/w/gYf4A==}
+
+  '@module-federation/sdk@0.19.1':
+    resolution: {integrity: sha512-0JTkYaa4qNLtYGc6ZQQ50BinWh4bAOgT8t17jB/6BqcWiza6fKz647wN0AK+VX3rtl6kvGAjhtqqZtRBc8aeiw==}
 
   '@module-federation/third-party-dts-extractor@0.18.4':
     resolution: {integrity: sha512-PpiC0jxOegNR/xjhNOkjSYnUqMNJAy1kWsRd10to3Y64ZvGRf7/HF+x3aLIX8MbN7Ioy9F7Gd5oax6rtm+XmNQ==}
@@ -4608,6 +4623,8 @@ snapshots:
 
   '@module-federation/error-codes@0.18.4': {}
 
+  '@module-federation/error-codes@0.19.1': {}
+
   '@module-federation/inject-external-runtime-core-plugin@0.18.4(@module-federation/runtime-tools@0.18.4)':
     dependencies:
       '@module-federation/runtime-tools': 0.18.4
@@ -4667,6 +4684,11 @@ snapshots:
       '@module-federation/error-codes': 0.18.4
       '@module-federation/sdk': 0.18.4
 
+  '@module-federation/runtime-core@0.19.1':
+    dependencies:
+      '@module-federation/error-codes': 0.19.1
+      '@module-federation/sdk': 0.19.1
+
   '@module-federation/runtime-tools@0.18.0':
     dependencies:
       '@module-federation/runtime': 0.18.0
@@ -4695,11 +4717,19 @@ snapshots:
       '@module-federation/runtime-core': 0.18.4
       '@module-federation/sdk': 0.18.4
 
+  '@module-federation/runtime@0.19.1':
+    dependencies:
+      '@module-federation/error-codes': 0.19.1
+      '@module-federation/runtime-core': 0.19.1
+      '@module-federation/sdk': 0.19.1
+
   '@module-federation/sdk@0.17.1': {}
 
   '@module-federation/sdk@0.18.0': {}
 
   '@module-federation/sdk@0.18.4': {}
+
+  '@module-federation/sdk@0.19.1': {}
 
   '@module-federation/third-party-dts-extractor@0.18.4':
     dependencies:
