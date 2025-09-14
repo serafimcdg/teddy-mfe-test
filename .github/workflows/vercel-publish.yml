@@ -1,7 +1,7 @@
 deploy-design-system:
 on:
 jobs:
-name: mono repo deploy
+name: Vercel Multi Deploy
 on:
   push:
     branches:
