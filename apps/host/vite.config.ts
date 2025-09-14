@@ -4,7 +4,7 @@ import { federation } from '@module-federation/vite'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const CLIENTS = env.VITE_REMOTE_CLIENTS_URL || 'http://localhost:5174/remoteEntry.js'
+  const CLIENTS = env.VITE_REMOTE_CLIENTS_URL || 'https://teddy-mfe-test-clients.vercel.app/remoteEntry.js'
 
   const mf = federation({
     name: 'host',
