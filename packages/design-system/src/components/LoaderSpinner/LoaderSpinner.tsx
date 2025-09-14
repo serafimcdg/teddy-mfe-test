@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import spinner from '../icons/spinner.png';
-import { LoaderSpinnerProps } from '../types/loaderSpinner';
+import { LoaderSpinnerProps } from '../../types/loaderSpinner';
 
 export default function LoaderSpinner({ visible = true, timeout }: LoaderSpinnerProps) {
   const [show, setShow] = useState(visible);

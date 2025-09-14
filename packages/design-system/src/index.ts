@@ -1,6 +1,6 @@
-export { default as SelectedCard } from './components/SelectedCard';
+export { default as SelectedCard } from './components/SelectedCard/SelectedCard';
 export type { SelectedCardProps } from './types/selectedCard';
-export { default as LoaderSpinner } from './components/LoaderSpinner';
+export { default as LoaderSpinner } from './components/LoaderSpinner/LoaderSpinner';
 import './styles/tailwind.css'
 export { default as Header } from './components/Header/Header'
 import HeaderProps from './components/Header/Header';

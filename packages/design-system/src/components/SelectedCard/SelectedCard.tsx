@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { menosSvg } from '../icons';
-import { SelectedCardProps } from '../types/selectedCard';
+import { menosSvg } from '../../icons';
+import { SelectedCardProps } from '../../types/selectedCard';
 
 const SelectedCard: React.FC<SelectedCardProps> = ({ nome, salario, empresa, onDelete }) => {
   return (
