@@ -1,3 +1,5 @@
 {
-  "outputDirectory": "storybook-static"
+  "outputDirectory": "storybook-static",
+  "version": 2,
+  "framework": "vite"
 }
