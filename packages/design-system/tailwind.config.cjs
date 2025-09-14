@@ -1,7 +1,7 @@
 module.exports = {
   content: [
     './src/**/*.{js,ts,jsx,tsx}',
-    // Adicione outros caminhos se necessário
+      '../../apps/clients/src/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {},

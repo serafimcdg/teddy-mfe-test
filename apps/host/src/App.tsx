@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { Header, Sidebar } from '@teddy/design-system'
+// @ts-ignore
+import CustomersRoot from 'clients/CustomersRoot'
 
 import home from '/icons/home.svg'
 import homeActive from '/icons/home-orange.svg'
@@ -70,12 +72,8 @@ export default function App() {
         activeColor="#EE7D46"
         logoSrc={logo}
       />
-
-
-      <main className="p-6">
-        <div className="rounded-xl bg-white p-6 shadow-sm">
-          <h1 className="text-xl font-bold mb-2">Host</h1>
-        </div>
+      <main >
+        <CustomersRoot />
       </main>
     </div>
   )
