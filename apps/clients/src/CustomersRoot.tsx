@@ -212,19 +212,35 @@ export default function CustomersRoot({ onSelectClient, selectedCardIds: externa
         onSubmit={async (data: { nome: string; salario: string; empresa: string }) => {
           setLoading(true);
           try {
+            const toInt = (valor: string) => {
+              if (!valor || valor.trim() === '') return undefined;
+              const num = Number(valor.replace(/\./g, '').replace(',', '.'));
+              return Math.round(num * 100);
+            };
+
             if (selectedClient) {
-              await patchUser(selectedClient.id, {
+              const patchPayload = {
                 name: data.nome,
-                salary: Number(data.salario),
-                companyValuation: Number(data.empresa)
-              });
+                salary: (() => {
+                  const converted = data.salario && data.salario.trim() !== '' ? toInt(data.salario) : undefined;
+                  return typeof converted === 'number' ? converted : selectedClient.salary;
+                })(),
+                companyValuation: (() => {
+                  const converted = data.empresa && data.empresa.trim() !== '' ? toInt(data.empresa) : undefined;
+                  return typeof converted === 'number' ? converted : selectedClient.companyValuation;
+                })()
+              };
+              await patchUser(selectedClient.id, patchPayload);
               showToast('success', 'Cliente editado com sucesso!');
             } else {
-              await postUser({
-                name: data.nome,
-                salary: Number(data.salario),
-                companyValuation: Number(data.empresa)
-              });
+              const payload: any = { name: data.nome };
+              if (data.salario && data.salario.trim() !== '') {
+                payload.salary = toInt(data.salario);
+              }
+              if (data.empresa && data.empresa.trim() !== '') {
+                payload.companyValuation = toInt(data.empresa);
+              }
+              await postUser(payload);
               showToast('success', 'Cliente criado com sucesso!');
             }
 
