@@ -18,7 +18,6 @@ export default function Header({
 }: Readonly<HeaderProps>) {
   const handleNavClick = (it: HeaderNavItem) => (e: React.MouseEvent) => {
     if (it.onClick) {
-      e.preventDefault()
       it.onClick(e)
     }
   }

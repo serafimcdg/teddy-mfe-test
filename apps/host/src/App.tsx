@@ -4,7 +4,7 @@
 
 import * as React from 'react';
 import { Header, Sidebar } from '@teddy/design-system';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 // @ts-ignore
 import CustomersRoot from 'clients/CustomersRoot';
 // @ts-ignore
@@ -26,6 +26,7 @@ export default function App() {
   const [navHidden, setNavHidden] = React.useState(true);
   const [userName, setUserName] = React.useState<string>(() => localStorage.getItem('userName') || '');
   const [selectedClients, setSelectedClients] = React.useState<Client[]>([]);
+  const location = useLocation();
 
   const handleSelectClient = (id: number, client: Client) => {
     setSelectedClients((prev) => prev.some((c) => c.id === id)
@@ -55,16 +56,17 @@ export default function App() {
             navHidden={navHidden}
             userName={userName}
             navItems={[
-              { key: 'clients', label: 'Clientes', href: '/clientes', active: true, onClick: (e: React.MouseEvent) => { e.preventDefault(); navigate('/clientes'); } },
-              { key: 'selected', label: 'Clientes selecionados', href: '/selecionados', active: false, onClick: (e: React.MouseEvent) => { e.preventDefault(); navigate('/selecionados'); } },
+              { key: 'clients', label: 'Clientes', href: '/clientes', active: location.pathname === '/clientes', onClick: () => { navigate('/clientes'); } },
+              { key: 'selected', label: 'Clientes selecionados', href: '/selecionados', active: location.pathname === '/selecionados', onClick: () => { navigate('/selecionados'); } },
               { key: 'sair', label: 'Sair', href: '/', onClick: (e: React.MouseEvent) => { e.preventDefault(); handleLogout(); navigate('/'); } }
             ]}
           />
           <Sidebar
             items={[
-              { key: 'clients', label: 'Clientes', iconSrc: '/icons/cliente.svg', iconActiveSrc: '/icons/cliente-orange.svg', href: '/clientes', active: true },
-              { key: 'selected', label: 'Clientes selecionados', iconSrc: '/icons/selecionados.svg', iconActiveSrc: '/icons/selecionados-orange.svg', href: '/selecionados', active: false }
+              { key: 'clients', label: 'Clientes', iconSrc: '/icons/cliente.svg', iconActiveSrc: '/icons/cliente-orange.svg', href: '/clientes' },
+              { key: 'selected', label: 'Clientes selecionados', iconSrc: '/icons/selecionados.svg', iconActiveSrc: '/icons/selecionados-orange.svg', href: '/selecionados' }
             ]}
+            selectedKey={location.pathname === '/selecionados' ? 'selected' : 'clients'}
             hidden={navHidden}
             onHiddenChange={setNavHidden}
             onSelect={() => {}}
@@ -86,15 +88,15 @@ export default function App() {
             navHidden={navHidden}
             userName={userName}
             navItems={[
-              { key: 'clients', label: 'Clientes', href: '/clientes', active: false, onClick: (e: React.MouseEvent) => { e.preventDefault(); navigate('/clientes'); } },
-              { key: 'selected', label: 'Clientes selecionados', href: '/selecionados', active: true, onClick: (e: React.MouseEvent) => { e.preventDefault(); navigate('/selecionados'); } },
+              { key: 'clients', label: 'Clientes', href: '/clientes', active: location.pathname === '/clientes', onClick: (e: React.MouseEvent) => { e.preventDefault(); navigate('/clientes'); } },
+              { key: 'selected', label: 'Clientes selecionados', href: '/selecionados', active: location.pathname === '/selecionados', onClick: (e: React.MouseEvent) => { e.preventDefault(); navigate('/selecionados'); } },
               { key: 'sair', label: 'Sair', href: '/', onClick: (e: React.MouseEvent) => { e.preventDefault(); handleLogout(); navigate('/'); } }
             ]}
           />
           <Sidebar
             items={[
-              { key: 'clients', label: 'Clientes', iconSrc: '/icons/cliente.svg', iconActiveSrc: '/icons/cliente-orange.svg', href: '/clientes', active: false },
-              { key: 'selected', label: 'Clientes selecionados', iconSrc: '/icons/selecionados.svg', iconActiveSrc: '/icons/selecionados-orange.svg', href: '/selecionados', active: true }
+              { key: 'clients', label: 'Clientes ', iconSrc: '/icons/cliente.svg', iconActiveSrc: '/icons/cliente-orange.svg', href: '/clientes', active: location.pathname === '/clientes' },
+              { key: 'selected', label: 'Clientes Selecionados', iconSrc: '/icons/selecionados.svg', iconActiveSrc: '/icons/selecionados-orange.svg', href: '/selecionados', active: location.pathname === '/selecionados' }
             ]}
             hidden={navHidden}
             onHiddenChange={setNavHidden}
