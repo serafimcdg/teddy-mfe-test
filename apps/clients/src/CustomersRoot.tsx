@@ -9,10 +9,10 @@ import { Card, ButtonCreate, ModalDeleteClient, ModalClient, Toast, LoaderSpinne
 
 
 type Client = {
-  nome: string;
-  salario: string;
-  empresa: string;
   id: number;
+  name: string;
+  salary: number;
+  companyValuation: number;
 };
 
 type ToastState = {
@@ -91,6 +91,9 @@ export default function CustomersRoot({ onSelectClient, selectedCardIds: externa
     setSelectedClient(client);
   };
 
+  const formatBRL = (value: number) =>
+    value?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
   return (
   <div className="w-full h-full bg-zinc-50 flex flex-col px-2 sm:px-6 md:px-10 lg:px-[40px]" style={{ position: 'relative' }}>
       {toast.visible && (
@@ -120,8 +123,6 @@ export default function CustomersRoot({ onSelectClient, selectedCardIds: externa
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full mb-2">
                   {clientes.map((c) => {
-                    const formatBRL = (value: number) =>
-                      value?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
                     return (
                       <Card
                         key={c.id}
@@ -208,12 +209,12 @@ export default function CustomersRoot({ onSelectClient, selectedCardIds: externa
           }
         }}
         initialData={selectedClient ? {
-          nome: selectedClient.nome,
-          salario: selectedClient.salario,
-          empresa: selectedClient.empresa,
+          nome: selectedClient?.name ?? '',
+          salario: selectedClient?.salary != null ? (selectedClient.salary / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace(/^R\$\s?/, '') : '',
+          empresa: selectedClient?.companyValuation != null ? (selectedClient.companyValuation / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace(/^R\$\s?/, '') : '',
         } : undefined}
         title={selectedClient ? "Editar cliente:" : "Criar cliente:"}
-        buttonText={selectedClient ? "Salvar" : "Criar cliente"}
+        buttonText={selectedClient ? "Editar cliente" : "Criar cliente"}
       />
       <ModalDeleteClient
         open={modalDeleteOpen}
@@ -236,7 +237,7 @@ export default function CustomersRoot({ onSelectClient, selectedCardIds: externa
             setLoading(false);
           }
         }}
-        clientName={selectedClient ? selectedClient.nome : ''}
+  clientName={selectedClient?.name ?? ''}
       />
     </div>
   );

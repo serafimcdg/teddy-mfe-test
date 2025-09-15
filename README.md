@@ -14,13 +14,12 @@ Para rodar o projeto, você precisa ter instalado:
 1. Clonar o repositorio
 2. Instale as dependências: pnpm install
 
-
-
 ## Scripts principais
 
 - `pnpm dev` - Inicia o ambiente de desenvolvimento
-- `pnpm build` - Gera o build de PROD
+- `pnpm --filter @teddy/design-system build` - Necessario para gerar os arquivos de build do design system
 - `pnpm test` - testes unitarios
+- `- docker-compose up --build` - Caso queira subir ambiente via Docker
 
 ## O que foi utilizado para o projeto 
 
@@ -35,24 +34,43 @@ Para rodar o projeto, você precisa ter instalado:
 
 
 ## Rodando os ambientes 
+- Para rodar o ambiente, selecione o ambiente que deseja aponta em : teddy-mfe-test\apps\host\vite.config.ts
+
+- Basta Alterar: CLIENTS para tal
+
+* Em seguida abra o terminal e escolha qual a maneira desejada para subir o ambiente
+
+* Via containers (Docker) basta rodar o seguinte comando:  
+- docker-compose up --build
+- Abra o localhost:8080 ( para o mfe clients)
+- Abra localhost:8081 (para o host)
+- Abra http://localhost:6006/ (para o StoryBook)
+
+* Via gerenciador de pacote, serão dois comandos:
+- pnpm --filter @teddy/design-system build
+- pnpm dev
 
 ## Ambiente de desenvolvimento 
 - pnpm dev
+- Abra o http://localhost:5174/ ( para o mfe clients)
+- Abra http://localhost:5173 (para o host)
 
-## Design System :
-- cd packages/design-system
-- pnpm dev
+- Para o StoryBook será necesario rodar: 
+- pnpm --filter @teddy/design-system storybook
+- Abra http://localhost:6006/ (para o StoryBook)
+
 
 ## Client
-- cd apps/clients
-- pnpm dev
+- pnpm --filter @teddy/clients dev
+## Host
+- pnpm --filter @teddy/host dev
 
 ## Docker 
 - docker-compose up --build
 
 # Storybook
-- cd packages/design-system
-- pnpm storybook
+- pnpm --filter @teddy/design-system storybook
+
 ---
 
 

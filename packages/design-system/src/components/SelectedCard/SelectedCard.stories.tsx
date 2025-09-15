@@ -20,7 +20,7 @@ type Story = StoryObj<typeof SelectedCard>;
 export const Default: Story = {
   args: {
     nome: 'João Silva',
-    salario: 'R$ 5.000',
+    salario: '5000',
     empresa: 'Teddy',
     onDelete: () => alert('Remover'),
   },

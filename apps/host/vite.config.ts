@@ -1,11 +1,14 @@
-import { defineConfig, loadEnv, type PluginOption } from 'vite'
+import { defineConfig,type PluginOption } from 'vite'
 import react from '@vitejs/plugin-react'
 import { federation } from '@module-federation/vite'
 
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
+export default defineConfig(() => {
+  const REMOTE_DOCKER='http://clients:80/remoteEntry.js'; 
+  const REMOTE_DEV = 'http://localhost:5174/remoteEntry.js';
+  const REMOTE_PROD = 'https://teddy-mfe-test-clients.vercel.app/remoteEntry.js';
+
+  const CLIENTS = REMOTE_PROD; 
   
-  const CLIENTS = env.VITE_REMOTE_CLIENTS_URL_DOCKER || 'https://teddy-mfe-test-clients.vercel.app/remoteEntry.js';
 
   const mf = federation({
     name: 'host',

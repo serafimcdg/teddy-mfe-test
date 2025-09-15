@@ -70,14 +70,6 @@
         
     }
       const usedRemotes = [
-                {
-                  entryGlobalName: "clients",
-                  name: "clients",
-                  type: "module",
-                  entry: "http://localhost:5174/remoteEntry.js",
-                  shareScope: "default",
-                }
-          
       ]
       export {
         usedShared,
