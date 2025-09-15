@@ -272,8 +272,16 @@ export default function CustomersRoot({ onSelectClient, selectedCardIds: externa
               await deleteUser(selectedClient.id);
               showToast('success', 'Cliente excluído com sucesso!');
               const data = await fetchUsers(page, perPage);
-              setClientes(data.clients);
-              setTotal(data.totalPages * perPage);
+              if (data.clients.length === 0 && page > 1) {
+                const prevPage = page - 1;
+                setPage(prevPage);
+                const prevData = await fetchUsers(prevPage, perPage);
+                setClientes(prevData.clients);
+                setTotal(prevData.totalPages);
+              } else {
+                setClientes(data.clients);
+                setTotal(data.totalPages);
+              }
             }
             setModalDeleteOpen(false);
           } catch (err) {
