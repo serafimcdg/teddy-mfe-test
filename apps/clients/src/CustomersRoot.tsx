@@ -246,7 +246,7 @@ export default function CustomersRoot({ onSelectClient, selectedCardIds: externa
 
             const usersData: { clients: Client[]; totalPages: number } = await fetchUsers(page, perPage);
             setClientes(usersData.clients);
-            setTotal(usersData.totalPages * perPage);
+            setTotal(usersData.totalPages);
             setModalEditOpen(false);
           } catch (err) {
             showToast('error', selectedClient ? 'Erro ao editar usuário!' : 'Erro ao criar usuário!');
