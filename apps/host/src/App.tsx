@@ -41,6 +41,20 @@ export default function App() {
 
   const navigate = useNavigate(); 
 
+  // Helper for sidebar selection
+  const getSidebarSelectedKey = () => {
+    if (location.pathname === '/selecionados') return 'selected';
+    if (location.pathname === '/clientes') return 'clients';
+    return 'home';
+  };
+
+  // Helper for sidebar navigation
+  const handleSidebarSelect = (key: 'home' | 'clients' | 'selected') => {
+    if (key === 'home') navigate('/');
+    else if (key === 'clients') navigate('/clientes');
+    else if (key === 'selected') navigate('/selecionados');
+  };
+
   return (
     <Routes>
       <Route path="/" element={
@@ -63,13 +77,14 @@ export default function App() {
           />
           <Sidebar
             items={[
+              { key: 'home', label: 'Home', iconSrc: '/icons/home.svg', iconActiveSrc: '/icons/home-orange.svg', href: '/' },
               { key: 'clients', label: 'Clientes', iconSrc: '/icons/cliente.svg', iconActiveSrc: '/icons/cliente-orange.svg', href: '/clientes' },
               { key: 'selected', label: 'Clientes selecionados', iconSrc: '/icons/selecionados.svg', iconActiveSrc: '/icons/selecionados-orange.svg', href: '/selecionados' }
             ]}
-            selectedKey={location.pathname === '/selecionados' ? 'selected' : 'clients'}
+            selectedKey={getSidebarSelectedKey()}
             hidden={navHidden}
             onHiddenChange={setNavHidden}
-            onSelect={() => {}}
+            onSelect={handleSidebarSelect}
             activeColor="#EE7D46"
             logoSrc={'/icons/logoTeddy.svg'}
           />
@@ -88,19 +103,21 @@ export default function App() {
             navHidden={navHidden}
             userName={userName}
             navItems={[
-              { key: 'clients', label: 'Clientes', href: '/clientes', active: location.pathname === '/clientes', onClick: (e: React.MouseEvent) => { e.preventDefault(); navigate('/clientes'); } },
-              { key: 'selected', label: 'Clientes selecionados', href: '/selecionados', active: location.pathname === '/selecionados', onClick: (e: React.MouseEvent) => { e.preventDefault(); navigate('/selecionados'); } },
+              { key: 'clients', label: 'Clientes', href: '/clientes', active: location.pathname === '/clientes', onClick: () => { navigate('/clientes'); } },
+              { key: 'selected', label: 'Clientes selecionados', href: '/selecionados', active: location.pathname === '/selecionados', onClick: () => { navigate('/selecionados'); } },
               { key: 'sair', label: 'Sair', href: '/', onClick: (e: React.MouseEvent) => { e.preventDefault(); handleLogout(); navigate('/'); } }
             ]}
           />
           <Sidebar
             items={[
-              { key: 'clients', label: 'Clientes ', iconSrc: '/icons/cliente.svg', iconActiveSrc: '/icons/cliente-orange.svg', href: '/clientes', active: location.pathname === '/clientes' },
-              { key: 'selected', label: 'Clientes Selecionados', iconSrc: '/icons/selecionados.svg', iconActiveSrc: '/icons/selecionados-orange.svg', href: '/selecionados', active: location.pathname === '/selecionados' }
+              { key: 'home', label: 'Home', iconSrc: '/icons/home.svg', iconActiveSrc: '/icons/home-orange.svg', href: '/' },
+              { key: 'clients', label: 'Clientes', iconSrc: '/icons/cliente.svg', iconActiveSrc: '/icons/cliente-orange.svg', href: '/clientes' },
+              { key: 'selected', label: 'Clientes selecionados', iconSrc: '/icons/selecionados.svg', iconActiveSrc: '/icons/selecionados-orange.svg', href: '/selecionados' }
             ]}
+            selectedKey={getSidebarSelectedKey()}
             hidden={navHidden}
             onHiddenChange={setNavHidden}
-            onSelect={() => {}}
+            onSelect={handleSidebarSelect}
             activeColor="#EE7D46"
             logoSrc={'/icons/logoTeddy.svg'}
           />
